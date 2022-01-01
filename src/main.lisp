@@ -2,8 +2,6 @@
   (:use :cl))
 (in-package :cat-parser)
 
-;; blah blah blah.
-
 (defvar *delim* (list "(" ")"))
 (defvar *quotation-marks* (list #\" #\'))
 
