@@ -10,27 +10,27 @@
 ;; (defun parse (toks)
 ;;   (cond
 ;;     ((null toks) '())
-;;     ((start-paren-p (car toks))
+;;     ((start-paren? (car toks))
 ;;      (multiple-value-bind (child remain) (parse-child (cdr toks))
 ;;        (cond
 ;;          ((null remain) (error :missing-close-paren)) ;; todo: error detail
-;;          ((end-paren-p (car remain)) (cons (make-node :type :sexp
+;;          ((end-paren? (car remain)) (cons (make-node :type :sexp
 ;;                                                       :start (node-start (car toks))
 ;;                                                       :end (node-end (car remain))
 ;;                                                       :elts child)
 ;;                                            (parse (cdr remain))))
 ;;          (t (error :misssing-close-paren)))))
-;;     ((end-paren-p (car toks)) (error :missing-open-paren))
+;;     ((end-paren? (car toks)) (error :missing-open-paren))
 ;;     (t (cons (car toks) (parse (cdr toks))))))
 
 (defun parse-single-sexp (toks)
   (cond
     ((null toks) (values nil '()))
-    ((start-paren-p (car toks))
+    ((start-paren? (car toks))
      (multiple-value-bind (child remain) (parse-child (cdr toks) '())
        (cond
          ((null remain) (error "missing-close-paren"))
-         ((not (end-paren-p (car remain))) (error "missing-close-paren"))
+         ((not (end-paren? (car remain))) (error "missing-close-paren"))
          ;; ((not (null (cdr remain))) (error :trailing-toks)) ;; TODO: show trailing
          (t (values (make-node :type :sexp
                                 :start (node-start (car toks))
@@ -43,18 +43,18 @@
 (defun parse-child (toks res)
   (cond
     ((null toks) (values (reverse res) '()))
-    ((end-paren-p (car toks)) (values (reverse res) toks))
-    ((start-paren-p (car toks))
+    ((end-paren? (car toks)) (values (reverse res) toks))
+    ((start-paren? (car toks))
      (multiple-value-bind (sexp remain) (parse-single-sexp toks)
        (parse-child remain (cons sexp res))))
     (t (parse-child (cdr toks) (cons (car toks) res)))
     ))
 
-(defun start-paren-p (node)
+(defun start-paren? (node)
   (and (eq (node-type node) :delim)
        (string= (node-elts node) "(")))
 
-(defun end-paren-p (node)
+(defun end-paren? (node)
   (and (eq (node-type node) :delim)
        (string= (node-elts node) ")")))
 
