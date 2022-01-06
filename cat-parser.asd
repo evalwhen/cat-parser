@@ -13,7 +13,8 @@
   :author "hujianfeng"
   :license ""
   :depends-on ("cat-parser"
-               "rove")
+               "rove"
+               "cl-ppcre")
   :components ((:module "tests"
                 :components
                 ((:file "main"))))
