@@ -2,7 +2,7 @@
   :version "0.1.0"
   :author "hujianfeng"
   :license ""
-  :depends-on ()
+  :depends-on (:cl-ppcre)
   :components ((:module "src"
                 :components
                 ((:file "main"))))
@@ -13,8 +13,7 @@
   :author "hujianfeng"
   :license ""
   :depends-on ("cat-parser"
-               "rove"
-               "cl-ppcre")
+               "rove")
   :components ((:module "tests"
                 :components
                 ((:file "main"))))

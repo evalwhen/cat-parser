@@ -5,6 +5,10 @@
 (defvar *delim* (list "(" ")"))
 (defvar *quotation-marks* (list #\" #\'))
 
+(defun tail-test ()
+  (print "here")
+  (tail-test))
+
 (defstruct node type start end elts)
 
 ;; (defun parse (toks)
